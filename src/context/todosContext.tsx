@@ -1,5 +1,4 @@
 import React, { createContext, useReducer } from 'react';
-import { data } from '../utilities/mockData';
 
 interface StateType  { 
     userId: number,
@@ -7,11 +6,19 @@ interface StateType  {
     title: string,
     status: | 'pending' | 'done' | 'in-progress'
 };
-const initialState:StateType[] = data;
+
+const initialState:StateType[] = [{
+    userId: 1,
+    id: 1,
+    title: "",
+    status: 'pending'
+}];
 
 
 ;
-type ActionType = | { type:'ADD_TODO', payload:StateType } | { type:'UPDATE_TODO', payload: StateType };
+type ActionType = | { type:'ADD_TODO', payload:StateType } 
+| { type:'UPDATE_TODO', payload: StateType } 
+| {type:'LOAD_TODO', payload:StateType[]};
 
 interface todosProviderProps {
     children: React.ReactNode
@@ -19,6 +26,9 @@ interface todosProviderProps {
 
 const reducer = (state : StateType[]  = initialState, action:ActionType) =>{
   switch(action.type){
+      case 'LOAD_TODO':{
+          return action.payload;
+      }
       case 'ADD_TODO':{
           return [...state, action.payload]
       }

@@ -29,7 +29,7 @@ const ListTodos: FC<{ setVisible:(value: boolean)=> void }> = ({setVisible})=>{
     });
     const [updateTodo] = useMutation(UPDATE_TODO);
     
-
+    
     useEffect(() => {
         setData({
           pending: state.filter(item=> item.status === 'pending'),

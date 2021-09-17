@@ -2,7 +2,8 @@ import React, { FC, useState, useContext } from 'react';
 import { useMutation } from '@apollo/client';
 import { Input, Button, Menu, Dropdown } from 'antd';
 import { TodosContext } from '../../../context/todosContext';
-import {CREATE_TODO} from '../../../GraphQL/Mutations';
+import {CREATE_TODO} from '../../../GraphQL/Mutations.graphql';
+import { CreateTodoMutation, Todo } from '../../../types/generated';
 import './style.scss';
 
 interface StateType  { 
@@ -16,9 +17,9 @@ const AddTodo: FC <{visible:boolean, setVisible:(value: boolean) => void;}> = ({
 
 const { dispatch}= useContext(TodosContext);
 const [data, setData] = useState<StateType>({id:0,userId: 1,title: '',status: 'pending'});
-const [createTodo] = useMutation(CREATE_TODO, {
+const [createTodo] = useMutation<CreateTodoMutation>(CREATE_TODO, {
     onCompleted({createTodo}) {
-        dispatch({type:'ADD_TODO', payload:createTodo});
+        dispatch({type:'ADD_TODO', payload: createTodo as Todo});
     }
 });
 

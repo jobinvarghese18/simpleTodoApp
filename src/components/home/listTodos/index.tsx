@@ -1,8 +1,9 @@
 import React, { FC, useContext, useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { TodosContext } from '../../../context/todosContext';
-import { LOAD_TODOS  } from '../../../GraphQL/Quaries';
-import { UPDATE_TODO } from '../../../GraphQL/Mutations';
+import { LOAD_TODOS  } from '../../../GraphQL/Quaries.graphql';
+import { UPDATE_TODO } from '../../../GraphQL/Mutations.graphql';
+import { UpdateTodoMutation, GetAllTodosQuery, Todo } from '../../../types/generated';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Button } from 'antd';
 
@@ -20,14 +21,14 @@ interface StateType  {
 
 const ListTodos: FC<{ setVisible:(value: boolean)=> void }> = ({setVisible})=>{
     const {state, dispatch} = useContext(TodosContext);
-    const [Data, setData] = useState<{pending:StateType[], onGoing:StateType[], done:StateType[]}>({pending:[], onGoing:[], done:[]});
+    const [Data, setData] = useState<{pending:Todo[], onGoing:Todo[], done:Todo[]}>({pending:[], onGoing:[], done:[]});
 
-    const { loading } = useQuery(LOAD_TODOS,{
-        onCompleted({getAllTodos}){
-            dispatch({type:'LOAD_TODO', payload: getAllTodos});
+    const { loading } = useQuery<GetAllTodosQuery>(LOAD_TODOS,{
+        onCompleted(data){
+            dispatch({type:'LOAD_TODO', payload: data.getAllTodos as Todo[]});
         }
     });
-    const [updateTodo] = useMutation(UPDATE_TODO);
+    const [updateTodo] = useMutation<UpdateTodoMutation>(UPDATE_TODO);
     
     
     useEffect(() => {

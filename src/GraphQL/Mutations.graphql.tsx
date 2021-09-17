@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { TODO_FRGAMENT } from './Quaries';
+import { TODO_FRGAMENT } from './Quaries.graphql';
 
 export const CREATE_TODO = gql`
 mutation CreateTodo($userId:Int!, $title:String!, $status:String!){

@@ -9,10 +9,10 @@ fragment todoFragment on Todo{
  }
 `
 export const LOAD_TODOS = gql`
-  ${TODO_FRGAMENT}
-  query{
+  query GetAllTodos {
      getAllTodos{
        ...todoFragment
-     }
   }
+}
+  ${TODO_FRGAMENT}
 `

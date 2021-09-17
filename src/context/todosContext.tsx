@@ -1,13 +1,7 @@
 import React, { createContext, useReducer } from 'react';
+import { Todo } from '../types/generated';
 
-interface StateType  { 
-    userId: number,
-    id: number,
-    title: string,
-    status: | 'pending' | 'done' | 'in-progress'
-};
-
-const initialState:StateType[] = [{
+const initialState: Todo[] = [{
     userId: 1,
     id: 1,
     title: "",
@@ -16,15 +10,15 @@ const initialState:StateType[] = [{
 
 
 ;
-type ActionType = | { type:'ADD_TODO', payload:StateType } 
-| { type:'UPDATE_TODO', payload: StateType } 
-| {type:'LOAD_TODO', payload:StateType[]};
+type ActionType = | { type:'ADD_TODO', payload:Todo } 
+| { type:'UPDATE_TODO', payload: Todo } 
+| {type:'LOAD_TODO', payload:Todo[]};
 
 interface todosProviderProps {
     children: React.ReactNode
 };
 
-const reducer = (state : StateType[]  = initialState, action:ActionType) =>{
+const reducer = (state : Todo[]  = initialState, action:ActionType) =>{
   switch(action.type){
       case 'LOAD_TODO':{
           return action.payload;
@@ -49,7 +43,7 @@ const reducer = (state : StateType[]  = initialState, action:ActionType) =>{
 };
 
 const TodosContext = createContext<{
-    state: StateType[],
+    state: Todo[],
     dispatch: React.Dispatch<ActionType>
 }>({ state: initialState, dispatch:()=>{}});
 
